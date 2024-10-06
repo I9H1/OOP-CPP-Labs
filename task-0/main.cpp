@@ -3,9 +3,9 @@
 
 using namespace std;
 
-int main() {
-    const string input_filename = "../in.txt";
-    const string output_filename = "../out.csv";
+int main(int argc, char* argv[]) {
+    const string input_filename = argv[1];
+    const string output_filename = argv[2];
     Controller controller(input_filename, output_filename);
     if (!controller.open_files()) {
         cout << "can not open files";
