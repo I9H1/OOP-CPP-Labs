@@ -3,14 +3,13 @@ project(task_0)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(task_0 main.cpp
-        FileReader.h
-        FileReader.cpp
-        Statistics.h
-        Statistics.cpp
-        Tokenizer.h
-        Tokenizer.cpp
-        Controller.h
-        Controller.cpp
-        FileWriter.h
-        FileWriter.cpp)
+add_executable(${CMAKE_PROJECT_NAME}_run main.cpp)
+
+set(CMAKE_CXX_FLAGS "-g")
+
+include_directories(src)
+add_subdirectory(src)
+
+add_subdirectory(Tests)
+
+target_link_libraries(${CMAKE_PROJECT_NAME}_run ${CMAKE_PROJECT_NAME}_lib)
