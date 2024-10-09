@@ -18,11 +18,11 @@ void FileReader::close() {
         file_ptr.close();
 }
 
-bool FileReader::has_next() {
+bool FileReader::hasNext() {
     return !file_ptr.eof();
 }
 
-string FileReader::get_next() {
+string FileReader::getNext() {
     string new_string;
     getline(file_ptr, new_string);
     return new_string;

@@ -3,19 +3,24 @@
 
 TEST(BasicTests, test_10) {
     Statistics statistics;
-    statistics.handle_new_word("a");
-    vector<string> data = statistics.get_data_in_strings();
-    EXPECT_EQ("a;1;0.0%", data[0]);
+    statistics.handle("a");
+    vector<Word> data = statistics.getData();
+    EXPECT_EQ("a", data[0].word);
+    EXPECT_EQ(1, data[0].amount);
+    EXPECT_EQ(100, data[0].percent);
 }
 
 TEST(BasicTests, test_11) {
     Statistics statistics;
-    statistics.handle_new_word("b");
-    statistics.handle_new_word("a");
-    statistics.handle_new_word("a");
-    statistics.handle_new_word("a");
-    statistics.calculate_percentage();
-    vector<string> data = statistics.get_data_in_strings();
-    vector<string> check_data = {"a;3;75.0%", "b;1;25.0%"};
-    EXPECT_EQ(check_data, data);
+    statistics.handle("b");
+    statistics.handle("a");
+    statistics.handle("a");
+    statistics.handle("a");
+    vector<Word> data = statistics.getData();
+    EXPECT_EQ("a", data[0].word);
+    EXPECT_EQ(3, data[0].amount);
+    EXPECT_EQ(75.0, data[0].percent);
+    EXPECT_EQ("b", data[1].word);
+    EXPECT_EQ(1, data[1].amount);
+    EXPECT_EQ(25.0, data[1].percent);
 }

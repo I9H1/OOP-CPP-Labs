@@ -5,15 +5,20 @@
 
 using namespace std;
 
+struct Word {
+    string word;
+    int amount;
+    float percent;
+};
+
 class Statistics {
     private:
         int words_amount;
         map<string, vector<float>> data;
-        vector<pair<vector<float>, string>> sorted_data;
-        void sort_data();
+        vector<Word> sortData();
+        void calculatePercentage();
     public:
         Statistics();
-        void handle_new_word(string word);
-        void calculate_percentage();
-        vector<string> get_data_in_strings();
+        void handle(string word);
+        vector<Word> getData();
 };

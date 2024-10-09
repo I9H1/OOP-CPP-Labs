@@ -12,7 +12,6 @@ class FileWriter {
     public:
         FileWriter(string filename);
         bool open();
-        void write_data(vector<string> data);
+        void write(vector<string> data);
         void close();
 };
-

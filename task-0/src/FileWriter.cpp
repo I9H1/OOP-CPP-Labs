@@ -13,7 +13,7 @@ bool FileWriter::open() {
     return file_ptr.is_open();
 }
 
-void FileWriter::write_data(vector<string> data) {
+void FileWriter::write(vector<string> data) {
     for(string i : data) {
         file_ptr << i << endl;
     }

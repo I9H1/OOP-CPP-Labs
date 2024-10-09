@@ -15,21 +15,21 @@ TEST(BasicTests, test_2) {
 TEST(BasicTests, test_3) {
     FileReader fileReader("../../Tests/testfile1.txt");
     fileReader.open();
-    fileReader.get_next();
-    EXPECT_EQ(false, fileReader.has_next());
+    fileReader.getNext();
+    EXPECT_EQ(false, fileReader.hasNext());
     fileReader.close();
 }
 
 TEST(BasicTests, test_4) {
     FileReader fileReader("../../Tests/testfile1.txt");
     fileReader.open();
-    EXPECT_EQ(true, fileReader.has_next());
+    EXPECT_EQ(true, fileReader.hasNext());
     fileReader.close();
 }
 
 TEST(BasicTests, test_5) {
     FileReader fileReader("../../Tests/testfile1.txt");
     fileReader.open();
-    EXPECT_EQ("test string", fileReader.get_next());
+    EXPECT_EQ("test string", fileReader.getNext());
     fileReader.close();
 }

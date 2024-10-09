@@ -12,6 +12,6 @@ class FileReader {
         FileReader(string p_filename);
         bool open();
         void close();
-        bool has_next();
-        string get_next();
+        bool hasNext();
+        string getNext();
 };

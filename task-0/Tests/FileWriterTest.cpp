@@ -10,7 +10,7 @@ TEST(BasicTests_test, test_7) {
     FileWriter fileWriter("../../Tests/testfile2.txt");
     fileWriter.open();
     vector<string> data = {"string1", "string2"};
-    fileWriter.write_data(data);
+    fileWriter.write(data);
     fileWriter.close();
     ifstream file;
     file.open("../../Tests/testfile2.txt");
