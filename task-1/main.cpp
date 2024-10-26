@@ -1,9 +1,6 @@
 #include <iostream>
-#include "src/BitArray.h"
-
-using namespace std;
+#include "BitArray.h"
 
 int main() {
-    cout << 1;
     return 0;
 }
