@@ -282,7 +282,7 @@ TEST(xorTest, test_37) {
     EXPECT_EQ("Operation ^ requires same size of arrays", check);
 }
 
-TEST(andeqTEST, test_38) {
+TEST(andeqTest, test_38) {
     BitArray array_1(7, false);
     BitArray array_2(7, true);
     array_1[0] = true;
@@ -290,7 +290,7 @@ TEST(andeqTEST, test_38) {
     EXPECT_EQ("1000000", array_1.toString());
 }
 
-TEST(andeqTEST, test_39) {
+TEST(andeqTest, test_39) {
     BitArray array_1(7, false);
     BitArray array_2(6, true);
     string check;
@@ -302,7 +302,7 @@ TEST(andeqTEST, test_39) {
     EXPECT_EQ("Operation &= requires same size of arrays", check);
 }
 
-TEST(oreqTEST, test_40) {
+TEST(oreqTest, test_40) {
     BitArray array_1(7, false);
     BitArray array_2(7, true);
     array_2[0] = false;
@@ -310,7 +310,7 @@ TEST(oreqTEST, test_40) {
     EXPECT_EQ("0111111", array_1.toString());
 }
 
-TEST(oreqTEST, test_41) {
+TEST(oreqTest, test_41) {
     BitArray array_1(7, false);
     BitArray array_2(6, true);
     string check;
@@ -322,7 +322,7 @@ TEST(oreqTEST, test_41) {
     EXPECT_EQ("Operation |= requires same size of arrays", check);
 }
 
-TEST(xoreqTEST, test_42) {
+TEST(xoreqTest, test_42) {
     BitArray array_1(7, false);
     BitArray array_2(7, true);
     array_1[0] = true;
@@ -330,7 +330,7 @@ TEST(xoreqTEST, test_42) {
     EXPECT_EQ("0111111", array_1.toString());
 }
 
-TEST(xoreqTEST, test_43) {
+TEST(xoreqTest, test_43) {
     BitArray array_1(7, false);
     BitArray array_2(6, true);
     string check;
@@ -340,4 +340,18 @@ TEST(xoreqTEST, test_43) {
         check = message;
     }
     EXPECT_EQ("Operation ^= requires same size of arrays", check);
+}
+
+TEST(setTest, test_44) {
+    BitArray array(4, true);
+    array.set(0, false);
+    array.set(2, false);
+    EXPECT_EQ("0101", array.toString());
+}
+
+TEST(getRealSizeTest, test_45) {
+    BitArray array(8, false);
+    EXPECT_EQ(1, array.getRealSize());
+    array.pushBack(true);
+    EXPECT_EQ(2, array.getRealSize());
 }

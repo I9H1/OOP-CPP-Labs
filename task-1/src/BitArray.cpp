@@ -5,12 +5,12 @@
 
 using namespace std;
 
-int BitArray::getSizeInBytes(int size) {
+int BitArray::toBytes(int size) const {
     return static_cast<int>(ceil(size / static_cast<float>(BYTE_SIZE)));
 }
 
 BitArray::BitArray(int num_bits, bool value) {
-    int real_size = getSizeInBytes(num_bits);
+    int real_size = toBytes(num_bits);
     data = new unsigned char[real_size];
     for (int i = 0; i < real_size; ++i) {
         if (value)
@@ -29,8 +29,12 @@ int BitArray::getSize() const {
     return data_size;
 }
 
+int BitArray::getRealSize() const {
+    return toBytes(data_size);
+}
+
 BitArray::BitArray(const BitArray& array) {
-    int real_size = getSizeInBytes(array.data_size);
+    int real_size = toBytes(array.data_size);
     data = new unsigned char[real_size];
     for (int i = 0; i < array.data_size; ++i) {
         data[i] = array.data[i];
@@ -55,16 +59,16 @@ void BitArray::resize(int new_num_bits, bool value) {
     if (new_num_bits < 0) {
         throw "Invalid size";
     }
-    int real_size = getSizeInBytes(data_size);
-    int new_real_size = getSizeInBytes(new_num_bits);
+    int real_size = toBytes(data_size);
+    int new_real_size = toBytes(new_num_bits);
     unsigned char* new_data = new unsigned char[new_real_size];
-    for (int i = real_size; i < new_real_size; ++i) {
-        new_data[i] = (value)? (new_data[i] | 255) : (new_data[i] & 0);
-    }
     int last_byte = 0;
     for (int i = 0; i < min(data_size, new_num_bits) / BYTE_SIZE + 1; ++i) {
         new_data[i] = data[i];
         last_byte = i;
+    }
+    for (int i = real_size; i < new_real_size; ++i) {
+        new_data[i] = (value)? (new_data[i] | 255) : (new_data[i] & 0);
     }
     int remainder = min(data_size, new_num_bits) % BYTE_SIZE;
     if (remainder != 0) {
@@ -101,31 +105,34 @@ bool BitArray::operator[](int i) const {
 }
 
 BitArray::Wrapper::operator bool() const {
-    int byte = index / 8;
-    int shift = BYTE_SIZE - index % 8 - 1;
-    return (link->data[byte] >> shift) & 0x1;
+    const BitArray array = *link;
+    return array.operator[](index);
 }
 
 BitArray::Wrapper& BitArray::Wrapper::operator=(bool value) {
-    int byte = index / 8;
-    int shift = BYTE_SIZE - index % 8 - 1;
-    if (value) {
-        link->data[byte] |= (1 << shift);
-    } else {
-        link->data[byte] &= ~(1 << shift);
-    }
+    link->set(index, value);
     return *this;
 }
 
 void BitArray::set() {
-    int real_size = getSizeInBytes(data_size);
+    int real_size = toBytes(data_size);
     for (int i = 0; i < real_size; ++i) {
         data[i] = 255;
     }
 }
 
+void BitArray::set(int n, bool value) {
+    int byte = n / 8;
+    int shift = BYTE_SIZE - n % 8 - 1;
+    if (value) {
+        data[byte] |= (1 << shift);
+    } else {
+        data[byte] &= ~(1 << shift);
+    }
+}
+
 void BitArray::reset() {
-    int real_size = getSizeInBytes(data_size);
+    int real_size = toBytes(data_size);
     for (int i = 0; i < real_size; ++i) {
         data[i] = 0;
     }
@@ -151,7 +158,7 @@ bool BitArray::none() const {
 
 BitArray BitArray::operator~() {
     BitArray array(*this);
-    for (int i = 0; i < getSizeInBytes(data_size); ++i) {
+    for (int i = 0; i < toBytes(data_size); ++i) {
         array.data[i] = ~data[i];
     }
     return array;

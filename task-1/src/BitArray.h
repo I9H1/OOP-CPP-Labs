@@ -17,19 +17,21 @@ private:
         Wrapper& operator=(bool value);
         operator bool() const;
     };
-    int getSizeInBytes(int size);
+    int toBytes(int size) const;
 public:
     explicit BitArray(int num_bits, bool value = false);
     BitArray(const BitArray& array);
     ~BitArray();
     int getSize() const;
+    int getRealSize() const;
     void swap(BitArray &b);
     void clear();
     void resize(int new_num_bits, bool value = false);
     void pushBack(bool bit);
-    Wrapper operator[](int i);
     bool operator[](int i) const;
+    Wrapper operator[](int i);
     void set();
+    void set(int n, bool value = true);
     void reset();
     bool any() const;
     bool none() const;
