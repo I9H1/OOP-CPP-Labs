@@ -2,7 +2,7 @@ project(Tests)
 add_subdirectory(lib)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(Google_Tests_run UniverseTest.cpp)
+add_executable(Google_Tests_run GameTest.cpp UniverseTest.cpp FileReaderTest.cpp)
 
 target_link_libraries(Google_Tests_run ${CMAKE_PROJECT_NAME}_lib)
 

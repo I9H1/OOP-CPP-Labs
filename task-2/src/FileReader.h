@@ -15,6 +15,7 @@ private:
 public:
     FileReader(string filename);
     void open();
+    bool checkFormat();
     string getName();
     int getSize();
     vector<int> getBirthRule();

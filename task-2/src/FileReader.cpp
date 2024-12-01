@@ -7,6 +7,9 @@ FileReader::FileReader(std::string filename) {
 void FileReader::open() {
     if (!file_ptr.is_open()) {
         file_ptr.open(filename);
+        if (!file_ptr.is_open()) {
+            throw "Wrong input filename";
+        }
     }
 }
 
@@ -18,6 +21,15 @@ void FileReader::close() {
 
 bool FileReader::hasNext() {
     return !file_ptr.eof();
+}
+
+bool FileReader::checkFormat() {
+    file_ptr.seekg(0, ios_base::beg);
+    string tmp;
+    if (hasNext()) {
+        getline(file_ptr, tmp);
+    }
+    return tmp == "#Life 1.06";
 }
 
 string FileReader::getName() {
@@ -87,12 +99,14 @@ vector<int> FileReader::getSurvivalRule() {
 }
 
 vector<pair<int, int>> FileReader::getCoords() {
-    vector<pair<int, int>> coords;
+    vector<pair<int, int>> coords = {};
     string tmp;
     file_ptr.seekg(0, ios_base::beg);
     do {
         getline(file_ptr, tmp);
-    } while (tmp.find("#") != -1);
+    } while (tmp.find("#") != -1 and hasNext());
+    if (tmp.find("#") != -1)
+        return coords;
     do {
         int x = stoi(tmp.substr(0, tmp.find(" ")));
         int y = stoi(tmp.substr(tmp.find(" ") + 1, tmp.size() - tmp.find(" ") - 1));
