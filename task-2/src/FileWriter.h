@@ -11,11 +11,8 @@ private:
     ofstream file_ptr;
 
 public:
-    void open(string filename);
-    void WriteFileType();
-    void WriteName(string name);
-    void WriteSize(int size);
-    void WriteRules(vector<int> birth, vector<int> survival);
-    void WriteField(vector<vector<bool>> field);
+    FileWriter(string filename);
+    void open();
+    void write(vector<string> data);
     void close();
 };

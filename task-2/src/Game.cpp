@@ -40,12 +40,31 @@ void Game::tick() {
 }
 
 void Game::dump(string filename) {
-    FileWriter output_file;
-    output_file.open(filename);
-    output_file.WriteFileType();
-    output_file.WriteName(universe.getName());
-    output_file.WriteRules(universe.getBirthRule(), universe.getSurvivalRule());
-    output_file.WriteSize(universe.getSize());
-    output_file.WriteField(universe.getField());
+    FileWriter output_file(filename);
+    vector<string> data;
+    output_file.open();
+    data.push_back("#Life 1.06");
+    data.push_back("#N " + universe.getName());
+    vector<int> birth = universe.getBirthRule();
+    vector<int> survival = universe.getSurvivalRule();
+    string rules = "#R B";
+    for (int i = 0; i < birth.size(); ++i) {
+        rules += to_string(birth[i]);
+    }
+    rules += "/S";
+    for (int i = 0; i < survival.size(); ++i) {
+        rules += to_string(survival[i]);
+    }
+    data.push_back(rules);
+    data.push_back("#S " + to_string(universe.getSize()));
+    vector<vector<bool>> field = universe.getField();
+    for (int i = 0; i < field.size(); ++i) {
+        for (int j = 0; j < field.size(); ++j) {
+            if (field[i][j]) {
+                data.push_back(to_string(i) + " " + to_string(j));
+            }
+        }
+    }
+    output_file.write(data);
     output_file.close();
 }

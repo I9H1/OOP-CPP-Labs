@@ -1,8 +1,6 @@
 #pragma once
 #include <fstream>
 #include <iostream>
-#include <string>
-#include <vector>
 
 using namespace std;
 
@@ -10,16 +8,12 @@ class FileReader {
 private:
     string filename;
     ifstream file_ptr;
-    bool hasNext();
 
 public:
     FileReader(string filename);
+    string getNext();
+    bool hasNext();
+    void reset();
     void open();
-    bool checkFormat();
-    string getName();
-    int getSize();
-    vector<int> getBirthRule();
-    vector<int> getSurvivalRule();
-    vector<pair<int, int>> getCoords();
     void close();
 };

@@ -1,7 +1,9 @@
-#include "FileReader.h"
 #include "Game.h"
+#include "UniverseParser.h"
 
 using namespace std;
+
+bool isNumber(string str);
 
 int main(int argc, char *argv[]) {
     string in_filename = "../Universes/Glider.txt";
@@ -21,36 +23,30 @@ int main(int argc, char *argv[]) {
         in_filename = static_cast<string>(argv[1]);
     }
     // Reading from file and creating game object
-    FileReader file_in(in_filename);
+    UniverseParser parser;
+    UniverseConfig config;
     try {
-        file_in.open();
+        config = parser.parse(in_filename);
     } catch (const char *error) {
-        cout << error << endl
-             << "Input format for online: <input_filename>" << endl;
-        cout << "Input format for offline: <input_filename> -i <iterations> -o <output_filename>";
+        if (error == "Wrong input filename!") {
+            cout << error << endl
+                 << "Input format for online: <input_filename>" << endl;
+            cout << "Input format for offline: <input_filename> -i <iterations> -o <output_filename>";
+        } else if (error == "Wrong file format!") {
+            cout << "Input file format is not 'Life 1.06'";
+        }
         return 0;
     }
-    if (!file_in.checkFormat()) {
-        cout << "Input file format is not 'Life 1.06'";
-        file_in.close();
-        return 0;
-    }
-    int size = file_in.getSize();
-    string name = file_in.getName();
-    if (name == "Nameless") {
+    if (config.name == "Nameless") {
         cout << "!Name wasn't specified!" << endl;
     }
-    vector<int> birth_rule = file_in.getBirthRule();
-    vector<int> survival_rule = file_in.getSurvivalRule();
-    vector<pair<int, int>> coords = file_in.getCoords();
-    Game game(size, name, birth_rule, survival_rule, coords);
+    Game game(config);
     // Offline game proccess
     if (out_filename != "") {
         for (int i = 0; i < offline_iterations; ++i) {
             game.tick();
         }
         game.dump(out_filename);
-        file_in.close();
         cout << "Successful!";
         return 0;
     }
@@ -65,26 +61,42 @@ int main(int argc, char *argv[]) {
         getline(cin, command);
         if (command == "exit") {
             game.is_on = false;
-        } else if (command.find("tick") == 0) {
-            if (command == "tick") {
-                game.tick();
-                ++iterations;
+        } else if (command == "tick") {
+            game.tick();
+            ++iterations;
+            game.printUniverse();
+            cout << "Iteration: " << iterations << endl;
+        } else if (command == "dump") {
+            game.dump(in_filename);
+        } else if (command.find("tick ") == 0 and command.length() > 5) {
+            if (!isNumber(command.substr(5, command.length() - 5))) {
+                cout << "Invalid ticks amount!" << endl;
             } else {
                 for (int j = 0; j < stoi(command.substr(5, command.length() - 5)); ++j) {
                     game.tick();
                     ++iterations;
                 }
+                game.printUniverse();
+                cout << "Iteration: " << iterations << endl;
             }
-            game.printUniverse();
-            cout << "Iteration: " << iterations << endl;
         } else if (command == "help") {
             game.printHelp();
-        } else if (command.find("dump") == 0) {
-            game.dump(command.substr(5, command.length() - 5));
+        } else if (command.find("dump ") == 0 and command.length() > 5) {
+            string dump_filename;
+            dump_filename = command.substr(5, command.length() - 5);
+            game.dump(dump_filename);
         } else {
             cout << "No such command. Use 'help' for help\n";
         }
     }
-    file_in.close();
     return 0;
+}
+
+bool isNumber(string str) {
+    for (int i = 0; i < str.length(); ++i) {
+        if (!isdigit(str[i])) {
+            return false;
+        }
+    }
+    return true;
 }
