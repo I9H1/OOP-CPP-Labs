@@ -18,7 +18,7 @@ public:
     Converter *create() const override { return new Type(); }
 };
 
-typedef map<string, AbstractConverterCreator *> FactoryMap;
+typedef map<string, AbstractConverterCreator*> FactoryMap;
 
 class ConverterFactory {
 public:

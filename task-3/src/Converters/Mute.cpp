@@ -12,5 +12,5 @@ string Mute::getDescription() {
 }
 
 void Mute::setConfig(vector<std::string> args) {
-
+    
 }
