@@ -5,7 +5,9 @@
 
 class Mix : public Converter {
 private:
-    vector<string> args;
+    string mixing_file_name;
+    int from_time;
+    bool isNumber(string str);
 
 public:
     void convertSound(WAVReader& file_in, WAVWriter& file_out) override;

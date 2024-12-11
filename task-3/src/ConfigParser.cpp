@@ -1,16 +1,36 @@
 #include "ConfigParser.h"
 #include <sstream>
-#include <iostream>
+
+bool ConfigParser::isNumber(std::string str) {
+    for (int i = 0; i < str.size(); ++i) {
+        if (!isdigit(str[0])) {
+            return false;
+        }
+    }
+    return true;
+}
 
 Command ConfigParser::parseLine(std::string line) {
     Command command;
     stringstream stream(line);
     string word = "";
     while (getline(stream, word, ' ')) {
-        if (command.name.empty())
+        if (command.name.empty()) {
             command.name = word;
-        else
-            command.args.push_back(word);
+        } else {
+            if (word.find('$') == 0) {
+                string index = word.substr(1);
+                if (!isNumber(index)) {
+                    throw "Invalid arguments!";
+                }
+                if (input_files.size() < stoi(index)) {
+                    throw "Invalid arguments!";
+                }
+                command.args.push_back(input_files[stoi(index) - 1]);
+            } else {
+                command.args.push_back(word);
+            }
+        }
     }
     return command;
 }

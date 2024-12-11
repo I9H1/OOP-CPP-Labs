@@ -9,6 +9,7 @@ class FileWriter {
 protected:
     string filename;
     ofstream file_ptr;
+
 public:
     FileWriter(string filename);
     bool open(ios_base::openmode mode = ios_base::out);

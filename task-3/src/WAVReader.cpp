@@ -6,6 +6,7 @@ WAVHeader WAVReader::readHeader() {
     if (!checkFormat(header)) {
         throw "Unsupported audio format!";
     }
+    this->header = header;
     return header;
 }
 
@@ -27,4 +28,8 @@ uint16_t WAVReader::getNextSample() {
         throw "Cannot get sample!";
     }
     return sample;
+}
+
+int WAVReader::getSampleAmount() {
+    return header.subchunk2_size / (header.bits_per_sample / BYTE_SIZE);
 }

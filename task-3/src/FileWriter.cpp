@@ -9,6 +9,9 @@ FileWriter::FileWriter(string p_filename) {
 bool FileWriter::open(ios_base::openmode mode) {
     if (!file_ptr.is_open()) {
         file_ptr.open(filename, mode);
+        if (!file_ptr.is_open()) {
+            throw "Cannot open file " + filename;
+        }
     }
     return file_ptr.is_open();
 }

@@ -1,6 +1,7 @@
 #pragma once
-#include <stdint.h>
+#include <cstdint>
 
+#define BYTE_SIZE 8
 #define SUPPORTED_FORMAT 1163280727 // PCM
 #define SUPPORTED_CHANNELS 1
 #define SUPPORTED_SAMPLE_SIZE 16

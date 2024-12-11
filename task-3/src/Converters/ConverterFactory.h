@@ -2,6 +2,8 @@
 #include "Converter.h"
 #include "Mix.h"
 #include "Mute.h"
+#include "Slow.h"
+#include <iostream>
 #include <map>
 #include <string>
 
@@ -18,17 +20,19 @@ public:
     Converter *create() const override { return new Type(); }
 };
 
-typedef map<string, AbstractConverterCreator*> FactoryMap;
+typedef map<string, AbstractConverterCreator *> FactoryMap;
 
 class ConverterFactory {
+private:
+    FactoryMap factoryMap;
+
 public:
     ConverterFactory();
     Converter *create(const string id) const;
-    template<class Type> void add(string id);
+    template<class Type>
+    void add(string id);
+    void printDescription();
     ~ConverterFactory();
-
-private:
-    FactoryMap factoryMap;
 };
 
 template<class Type>

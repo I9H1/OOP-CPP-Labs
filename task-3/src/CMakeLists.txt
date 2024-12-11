@@ -6,6 +6,7 @@ set(SOURCES
         Converters/ConverterFactory.cpp
         Converters/Mute.cpp
         Converters/Mix.cpp
+        Converters/Slow.cpp
         WAVReader.cpp
         WAVWriter.cpp)
 
@@ -18,6 +19,7 @@ set(HEADERS
         Converters/ConverterFactory.h
         Converters/Mute.h
         Converters/Mix.h
+        Converters/Slow.h
         Converters/ConverterFactory.h
         Converters/Converter.h
         WAVReader.h

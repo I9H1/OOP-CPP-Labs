@@ -1,5 +1,4 @@
 #include "FileReader.h"
-#include <iostream>
 
 using namespace std;
 
@@ -10,6 +9,9 @@ FileReader::FileReader(string p_filename) {
 bool FileReader::open(ios_base::openmode mode) {
     if (!file_ptr.is_open()) {
         file_ptr.open(filename, mode);
+        if (!file_ptr.is_open()) {
+            throw "Cannot open file!";
+        }
     }
     return file_ptr.is_open();
 }
