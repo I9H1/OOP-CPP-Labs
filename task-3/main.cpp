@@ -82,6 +82,5 @@ Exceptions getErrorCode(string error) {
     } else if (error.find("Cannot open file") == 0) {
         return INVALID_FILENAME_ERROR;
     }
-    cout << 0;
     return UNKNOWN_ERROR;
 }
